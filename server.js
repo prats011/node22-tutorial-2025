@@ -4,11 +4,15 @@ const PORT = 4999
 
 //middleware
 app.use(express.json())
+app.use(express.static('public'))
 
 //TEMP DATABASE
 const db = []
 
 // GET POST PATCH PUT DELETE 
+
+//This gets overrun by the html file when
+//  there is app.use(express.static('public'))
 app.get('/', (req,res) => {
     console.log("You have reached the home route: GET ")
     res.status(200).send({"message": "Hi mom"})
