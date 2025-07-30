@@ -1,0 +1,23 @@
+###
+GET http://localhost:4999
+
+###
+POST http://localhost:4999/api/info
+Content-Type: application/json
+
+{
+    "information": "My name is Pratham"
+}
+
+###
+PUT http://localhost:4999/api/?word=pratham&banana=ripe
+Content-Type: application/json
+
+{
+    "information": "My name is Pratham"
+}
+
+
+###
+
+DELETE http://localhost:4999/delete/6/neat/
