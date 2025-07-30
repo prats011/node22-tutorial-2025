@@ -5,12 +5,22 @@ const PORT = 4999
 //middleware
 app.use(express.json())
 app.use(express.static('public'))
+app.use(require('cors')())
+app.use(mw)
+
+function mw(req, res, next){
+    console.log('Hit the MIDDLEWARE')
+    const {id} = req.query
+    if(id != 8){
+        return res.sendStatus(403)
+    }
+    next()
+}
 
 //TEMP DATABASE
 const db = []
 
 // GET POST PATCH PUT DELETE 
-
 //This gets overrun by the html file when
 //  there is app.use(express.static('public'))
 app.get('/', (req,res) => {
@@ -36,9 +46,9 @@ app.delete('/delete/james/cool', (req,res) => {
     res.sendStatus(200).send('Didnt make it')
 })
 
-app.delete('/delete/:id/:name', (req,res) => {
-    const {id, name} = req.params
-    console.log('What do you want to delete?', id, name)
+app.delete('/delete/', mw, (req,res) => {
+    const {id} = req.params
+    console.log('What do you want to delete? ', id)
     res.sendStatus(200)
 })
 
