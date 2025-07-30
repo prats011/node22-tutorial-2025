@@ -20,6 +20,23 @@ function mw(req, res, next){
 //TEMP DATABASE
 const db = []
 
+//SCHEDULER
+function cron(ms, fn){
+    async function cb(){
+        clearTimeout(timeout)
+        await fn()
+        timeout = setTimeout(cb, ms)
+    }
+    let timeout = setTimeout(cb, ms)
+    return () => { }
+}
+
+function consoleDB(){
+    console.log('DB= ', db)
+}
+
+cron(1000, consoleDB)
+
 // GET POST PATCH PUT DELETE 
 //This gets overrun by the html file when
 //  there is app.use(express.static('public'))
