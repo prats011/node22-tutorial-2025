@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:4999/api/?word=pratham&banana=ripe?id=9
+PUT http://localhost:4999/api/?word=pratham&id=8
 Content-Type: application/json
 
 {
@@ -19,4 +19,5 @@ Content-Type: application/json
 
 
 ###
-DELETE http://localhost:4999/delete/9?id=9
+DELETE http://localhost:4999/delete?id=8
+

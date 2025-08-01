@@ -54,19 +54,21 @@ app.post('/api/info', (req, res) => {
 })
 
 app.put('/api', (req, res) => {
-    const {word, banana} = req.query
-    console.log(word, banana)
+    const {word} = req.query
+    console.log(word)
     res.sendStatus(200)
 })
 
-app.delete('/delete/james/cool', (req,res) => {
-    res.sendStatus(200).send('Didnt make it')
-})
-
-app.delete('/delete/', mw, (req,res) => {
-    const {id} = req.params
-    console.log('What do you want to delete? ', id)
-    res.sendStatus(200)
+app.delete('/delete', (req,res) => {
+    if(db.length == 0){
+        return res.status(404).send('Database is empty')
+    }
+    else{
+        const deleted = db.shift()
+        console.log('Deleted first item:', deleted)
+        res.status(200).json({ message: 'Item deleted', deleted })
+    }
+    
 })
 
 app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))

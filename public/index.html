@@ -14,7 +14,7 @@
 <script>
     const btn = document.getElementById('nice')
     async function sendMsg(){
-        const res = await fetch('/api/info', {
+        const res = await fetch('/api/info?id=8', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
