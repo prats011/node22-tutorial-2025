@@ -60,15 +60,19 @@ app.put('/api', (req, res) => {
 })
 
 app.delete('/delete', (req,res) => {
-    if(db.length == 0){
-        return res.status(404).send('Database is empty')
-    }
-    else{
-        const deleted = db.shift()
-        console.log('Deleted first item:', deleted)
-        res.status(200).json({ message: 'Item deleted', deleted })
-    }
+    const { info } = req.query
     
+    const index = db.findIndex(item => item === info)
+
+    if (index === -1) {
+        return res.status(404).send('Item not found in database')
+    }
+
+  const deleted = db.splice(index, 1)[0]
+
+  console.log('Deleted item:', deleted)
+  res.status(200).send({"Deleted": deleted})
+
 })
 
 app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
