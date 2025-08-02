@@ -40,7 +40,7 @@ function consoleDB(){
 
 cron(1000, consoleDB)
 
-// GET POST PATCH PUT DELETE 
+//GET POST PATCH PUT DELETE 
 //This gets overrun by the html file when
 //  there is app.use(express.static('public'))
 app.get('/', (req,res) => {
@@ -51,6 +51,7 @@ app.get('/', (req,res) => {
 app.post('/api/info', (req, res) => {
     const {information}  = req.body
     console.log('The posted message: ', information)
+    console.log('hi')
     db.push(information)
     console.log('DB: ', db)
     res.status(201).json({"yourMessage": information})
