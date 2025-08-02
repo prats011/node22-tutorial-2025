@@ -35,7 +35,7 @@ function cron(ms, fn){
 }
 
 function consoleDB(){
-    console.log('. DB= ', db)
+    console.log('DB= ', db)
 }
 
 cron(1000, consoleDB)
@@ -68,9 +68,11 @@ app.put('/api', (req, res) => {
 })
 
 app.delete('/delete', (req,res) => {
-    db.splice(db,0)
-    console.log('DB: ', db)
-    res.status(200).send('deleted:')
+
+
+    //db.splice(0,1)
+    //console.log('DB: ', db)
+    //res.status(200).send('deleted:')
 
 })
 
