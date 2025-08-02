@@ -14,7 +14,7 @@ PUT http://localhost:4999/api/?word=pratham&id=8
 Content-Type: application/json
 
 {
-    "information": "My name is Pratham"
+    "information": "My name is James"
 }
 
 

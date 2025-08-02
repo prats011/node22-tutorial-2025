@@ -7,12 +7,15 @@
 </head>
 <body>
     This is Pratham
-    <button id ='nice'>
+    <button id ='send'>
         SEND
+    </button>
+    <button id="del">
+        DELETE
     </button>
 </body>
 <script>
-    const btn = document.getElementById('nice')
+    const btn = document.getElementById('send')
     async function sendMsg(){
         const res = await fetch('/api/info?id=8', {
             method: 'POST',
@@ -24,6 +27,15 @@
         console.log("REQUEST SENT")
     }
     btn.addEventListener('click', sendMsg)
+
+    const btnDel = document.getElementById('del')
+    async function delMsg(){
+        const res = await fetch('/delete?info=My%20name%20is%20Pratham&id=8', {
+            method: 'DELETE'
+        })
+        console.log("REQUEST SENT")
+    }
+    btnDel.addEventListener('click', delMsg)
 
 </script>
 </html>

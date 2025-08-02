@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const express = require('express')
 const app = express()
-const PORT = 4999
+const PORT = process.env.PORT || 4999;
+
 
 //middleware
 app.use(express.json())
@@ -32,7 +35,7 @@ function cron(ms, fn){
 }
 
 function consoleDB(){
-    console.log('DB= ', db)
+    console.log('. DB= ', db)
 }
 
 cron(1000, consoleDB)
@@ -55,7 +58,11 @@ app.post('/api/info', (req, res) => {
 
 app.put('/api', (req, res) => {
     const {word} = req.query
-    console.log(word)
+    //const {information}  = req.body
+    //db.push(information)
+    //console.log('DB: ', db)
+    //res.status(201).json({"yourMessage": information})
+    //console.log(word)
     res.sendStatus(200)
 })
 
