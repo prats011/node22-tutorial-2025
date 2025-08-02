@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    This is Pratham
-    <button id ='send'>
+    <button id='send'>
         SEND
     </button>
     <button id="del">
@@ -21,30 +22,58 @@
     </button>
 </body>
 <script>
-    const btn = document.getElementById('send')
-    async function sendMsg(){
+    const btn = document.getElementById('send');
+    async function sendMsg() {
         const res = await fetch('/api/info?id=8', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({information: "This is from the web client"})
-        })
-        console.log("REQUEST SENT")
+            body: JSON.stringify({ information: "This is from the web client" })
+        });
+        console.log("REQUEST SENT");
     }
-    btn.addEventListener('click', sendMsg)
+    btn.addEventListener('click', sendMsg);
 
-    const btnDel = document.getElementById('del')
-    async function delMsg(){
-        const res = await fetch('/delete?info=My%20name%20is%20Pratham&id=8', {
+    const btnDel = document.getElementById('del');
+    async function delMsg() {
+        const res = await fetch('/delete?id=8', {
             method: 'DELETE'
-        })
-        const res1 = await fetch('/delete?info=This%20is%20from%20the%20web%20client&id=8',{
-            method: 'DELETE'
-        })
-        
+        });
+        console.log("DELETE SENT");
     }
-    btnDel.addEventListener('click', delMsg)
+    btnDel.addEventListener('click', delMsg);
+
+    const btnpCreate = document.getElementById('pCreate');
+    async function pCreate() {
+        const res = await fetch('/api/create?id=8', {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ information: "You were using this website" })
+        });
+        console.log("PUT CREATE SENT");
+    }
+    btnpCreate.addEventListener('click', pCreate);
+
+    const btnpUpdate = document.getElementById('pUpdate');
+    async function pUpdate() {
+        const res = await fetch('/api/update?id=8', {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                information: "This is from the web client",
+                newInformation: "You are using the website"
+            })
+        });
+        console.log("PUT UPDATE SENT");
+    }
+    btnpUpdate.addEventListener('click', pUpdate);
+
 
 </script>
+
 </html>

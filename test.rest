@@ -10,17 +10,24 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:4999/api/?word=pratham&id=8
+PUT http://localhost:4999/api/update?id=8
 Content-Type: application/json
-
 {
-    "information": "My name is James"
+    "information": "You were using this website",
+    "newInformation": "My name is James"
+    
+}
+###
+PUT http://localhost:4999/api/create?id=8
+Content-Type: application/json
+{
+    "information": "My name is Pratham"
+    
 }
 
 
 ###
 DELETE http://localhost:4999/delete?id=8
 
-###
-DELETE http://localhost:4999/delete?info=This%20is%20from%20the%20web%20client&id=8
+
 
