@@ -58,27 +58,18 @@ app.post('/api/info', (req, res) => {
 
 app.put('/api', (req, res) => {
     const {word} = req.query
-    //const {information}  = req.body
-    //db.push(information)
-    //console.log('DB: ', db)
-    //res.status(201).json({"yourMessage": information})
-    //console.log(word)
+    const {information}  = req.body
+    db.push(information)
+    console.log('DB: ', db)
+    res.status(201).json({"yourMessage": information})
+    console.log(word)
     res.sendStatus(200)
 })
 
 app.delete('/delete', (req,res) => {
-    const { info } = req.query
-    
-    const index = db.findIndex(item => item === info)
-
-    if (index === -1) {
-        return res.status(404).send('Item not found in database')
-    }
-
-  const deleted = db.splice(index, 1)[0]
-
-  console.log('Deleted item:', deleted)
-  res.status(200).send({"Deleted": deleted})
+    db.splice(db,0)
+    console.log('DB: ', db)
+    res.status(200).send('deleted:')
 
 })
 
