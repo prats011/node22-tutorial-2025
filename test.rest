@@ -14,10 +14,13 @@ PUT http://localhost:4999/api/?word=pratham&id=8
 Content-Type: application/json
 
 {
-    "information": "My name is Pratham"
+    "information": "My name is James"
 }
 
 
 ###
 DELETE http://localhost:4999/delete?id=8
+
+###
+DELETE http://localhost:4999/delete?info=This%20is%20from%20the%20web%20client&id=8
 

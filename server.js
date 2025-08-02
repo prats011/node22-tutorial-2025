@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const express = require('express')
 const app = express()
-const PORT = 4999
+const PORT = process.env.PORT || 4999;
+
 
 //middleware
 app.use(express.json())
@@ -32,7 +35,7 @@ function cron(ms, fn){
 }
 
 function consoleDB(){
-    console.log('DB= ', db)
+    console.log('. DB= ', db)
 }
 
 cron(1000, consoleDB)
@@ -55,20 +58,19 @@ app.post('/api/info', (req, res) => {
 
 app.put('/api', (req, res) => {
     const {word} = req.query
+    const {information}  = req.body
+    db.push(information)
+    console.log('DB: ', db)
+    res.status(201).json({"yourMessage": information})
     console.log(word)
     res.sendStatus(200)
 })
 
 app.delete('/delete', (req,res) => {
-    if(db.length == 0){
-        return res.status(404).send('Database is empty')
-    }
-    else{
-        const deleted = db.shift()
-        console.log('Deleted first item:', deleted)
-        res.status(200).json({ message: 'Item deleted', deleted })
-    }
-    
+    db.splice(db,0)
+    console.log('DB: ', db)
+    res.status(200).send('deleted:')
+
 })
 
 app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
