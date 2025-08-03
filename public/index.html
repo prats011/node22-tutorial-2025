@@ -20,8 +20,18 @@
     <button id="pUpdate">
         Put Update
     </button>
+    <div id="timeContainer">
+        <p>Timestamps:</p>
+        <ul id="timeStampList"></ul>
+
+    </div>
 </body>
 <script>
+
+    //Following fucntion sources from:https://stackoverflow.com/questions/23850115/trying-to-get-a-timestamp-inputed-upon-a-click-of-the-button
+    // & https://www.w3schools.com/jsref/met_node_insertbefore.asp
+    //getTimeStamp()
+    //setTime()
     const btn = document.getElementById('send');
     async function sendMsg() {
         const res = await fetch('/api/info?id=8', {
@@ -32,8 +42,10 @@
             body: JSON.stringify({ information: "This is from the web client" })
         });
         console.log("REQUEST SENT");
+        setTime()
+        
     }
-    btn.addEventListener('click', sendMsg);
+    btn.addEventListener('click', sendMsg, setTime);
 
     const btnDel = document.getElementById('del');
     async function delMsg() {
@@ -41,8 +53,9 @@
             method: 'DELETE'
         });
         console.log("DELETE SENT");
+        setTime()
     }
-    btnDel.addEventListener('click', delMsg);
+    btnDel.addEventListener('click', delMsg, setTime);
 
     const btnpCreate = document.getElementById('pCreate');
     async function pCreate() {
@@ -54,8 +67,9 @@
             body: JSON.stringify({ information: "You were using this website" })
         });
         console.log("PUT CREATE SENT");
+        setTime()
     }
-    btnpCreate.addEventListener('click', pCreate);
+    btnpCreate.addEventListener('click', pCreate, setTime);
 
     const btnpUpdate = document.getElementById('pUpdate');
     async function pUpdate() {
@@ -70,10 +84,25 @@
             })
         });
         console.log("PUT UPDATE SENT");
+        setTime()
     }
-    btnpUpdate.addEventListener('click', pUpdate);
+    btnpUpdate.addEventListener('click', pUpdate, setTime);
 
+    function getTimeStamp() {
+        var now = new Date();
+        return ('<' + (now.getMonth() + 1) + '-' + (now.getDate()) + '-' + now.getFullYear() + ' ' + now.getHours() + ':'
+            + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' +
+            ((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds())) + '>');
+    }
+    function setTime() {
+        const time = getTimeStamp()
+        const newNode = document.createElement('li')
+        const details = document.createTextNode(time)
+        newNode.appendChild(details)
+        const list = document.getElementById("timeStampList")
+        list.insertBefore(newNode, list.children[0])
 
+    }
 </script>
 
 </html>
