@@ -73,7 +73,7 @@ app.put('/api/update', (req, res) => {
 
     db.splice(index, 1, newInformation);
     console.log('Updated new information:', newInformation)
-    res.status(200).json({ "yourMessage": `Updated: "${information}" to "${newInformation}"` })
+    res.status(200).json({ "yourMessage": `PUT Update: "${information}" to "${newInformation}"` })
 });
 
 
@@ -83,7 +83,7 @@ app.delete('/delete', (req, res) => {
         const info = db[0]
         const deleted = info
         db.splice(0, 1)
-        res.status(200).json({ "yourMessage": `Deleted: ${deleted}` })
+        res.status(200).json({ "yourMessage": `DELETE: ${deleted}` })
         console.log('The deleted message: ', info)
     } else {
         console.log('Empty DB LIST')
