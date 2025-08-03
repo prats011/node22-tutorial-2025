@@ -59,7 +59,7 @@ app.put('/api/create', (req, res) => {
     const { information } = req.body
     db.push(information)
     console.log('Added new item:', information)
-    return res.status(201).json({ "yourMessage": `PUT create: ${information}` })
+    return res.status(201).json({ "yourMessage": `PUT CREATE: ${information}` })
 })
 
 app.put('/api/update', (req, res) => {
@@ -68,12 +68,12 @@ app.put('/api/update', (req, res) => {
     const index = db.findIndex(newInformation => newInformation === information)
 
     if (index === -1) {
-        return res.status(404).json({ "yourMessage": "PUT update: error Item not found" })
+        return res.status(404).json({ "yourMessage": "PUT UPDATE: error Item not found" })
     }
 
     db.splice(index, 1, newInformation);
     console.log('Updated new information:', newInformation)
-    res.status(200).json({ "yourMessage": `PUT Update: "${information}" to "${newInformation}"` })
+    res.status(200).json({ "yourMessage": `PUT UPDATE: "${information}" to "${newInformation}"` })
 });
 
 

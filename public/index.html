@@ -15,10 +15,10 @@
         DELETE
     </button>
     <button id="pCreate">
-        Put Create
+        PUT CREATE
     </button>
     <button id="pUpdate">
-        Put Update
+        PUT UPDATE
     </button>
     <div id="timeContainer">
         <p>Messages:</p>
@@ -28,6 +28,7 @@
 </body>
 <script>
     //Following fucntion source from:https://stackoverflow.com/questions/23850115/trying-to-get-a-timestamp-inputed-upon-a-click-of-the-button
+    //https://www.w3schools.com
     //getTimeStamp()
 
     const responses = []
@@ -110,7 +111,5 @@
             + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' +
             ((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds())) + '>');
     }
-
 </script>
-
 </html>
