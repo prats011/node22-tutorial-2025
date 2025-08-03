@@ -40,9 +40,8 @@ function consoleDB() {
 
 cron(1000, consoleDB)
 
-//GET POST PATCH PUT DELETE 
 //This gets overrun by the html file when
-//  there is app.use(express.static('public'))
+// there is app.use(express.static('public'))
 app.get('/', (req, res) => {
     console.log("You have reached the home route: GET ")
     res.status(200).send({ "message": "Hi mom" })
@@ -64,15 +63,17 @@ app.put('/api/create', (req, res) => {
 })
 
 app.put('/api/update', (req, res) => {
-    const { information, newInformation } = req.body;
-    const index = db.findIndex(item => item === information);
-    if (index == -1) {
-        return res.status(404).json({ error: "Item not found" });
+    const { information} = req.body
+    const { newInformation } = req.body
+    const index = db.findIndex(newInformation => newInformation === information)
+
+    if (index === -1) {
+        return res.status(404).json({ error: "Item not found" })
     }
 
     db.splice(index, 1, newInformation);
-    console.log('Updated new information:', newInformation);
-    res.status(200).json({ "Updated new item": newInformation });
+    console.log('Updated new information:', newInformation)
+    res.status(200).json({ "Updated new item": newInformation })
 });
 
 
