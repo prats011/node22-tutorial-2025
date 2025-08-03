@@ -64,15 +64,17 @@ app.put('/api/create', (req, res) => {
 })
 
 app.put('/api/update', (req, res) => {
-    const { information } = req.body
-    const { newInformation } = req.body
-    const index = db.findIndex(newInformation => newInformation == information)
+    const { information, newInformation } = req.body;
+    const index = db.findIndex(item => item === information);
+    if (index == -1) {
+        return res.status(404).json({ error: "Item not found" });
+    }
 
-    db.splice(index, 1, newInformation)
-    console.log('Updated new information:', newInformation)
-    res.status(200).json({ "Updated new item": newInformation })
+    db.splice(index, 1, newInformation);
+    console.log('Updated new information:', newInformation);
+    res.status(200).json({ "Updated new item": newInformation });
+});
 
-})
 
 
 app.delete('/delete', (req, res) => {
