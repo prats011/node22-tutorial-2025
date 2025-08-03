@@ -44,7 +44,7 @@ cron(1000, consoleDB)
 // there is app.use(express.static('public'))
 app.get('/', (req, res) => {
     console.log("You have reached the home route: GET ")
-    res.status(200).send({ "message": "Hi mom" })
+    res.status(200).send({ "yourMessage": "GET: Opened web" })
 })
 
 app.post('/api/info', (req, res) => {
@@ -52,28 +52,28 @@ app.post('/api/info', (req, res) => {
     console.log('The posted message: ', information)
     db.push(information)
     console.log('DB: ', db)
-    res.status(201).json({ "yourMessage": information })
+    res.status(201).json({ "yourMessage": `POST: ${information}` })
 })
 
 app.put('/api/create', (req, res) => {
     const { information } = req.body
     db.push(information)
     console.log('Added new item:', information)
-    return res.status(201).json({ "Added new item": information })
+    return res.status(201).json({ "yourMessage": `PUT create: ${information}` })
 })
 
 app.put('/api/update', (req, res) => {
-    const { information} = req.body
+    const { information } = req.body
     const { newInformation } = req.body
     const index = db.findIndex(newInformation => newInformation === information)
 
     if (index === -1) {
-        return res.status(404).json({ error: "Item not found" })
+        return res.status(404).json({ "yourMessage": "PUT update: error Item not found" })
     }
 
     db.splice(index, 1, newInformation);
     console.log('Updated new information:', newInformation)
-    res.status(200).json({ "Updated new item": newInformation })
+    res.status(200).json({ "yourMessage": `Updated: "${information}" to "${newInformation}"` })
 });
 
 
@@ -81,12 +81,13 @@ app.put('/api/update', (req, res) => {
 app.delete('/delete', (req, res) => {
     if (db.length > 0) {
         const info = db[0]
+        const deleted = info
         db.splice(0, 1)
-        res.status(200).json({ "Deleted= ": info })
+        res.status(200).json({ "yourMessage": `Deleted: ${deleted}` })
         console.log('The deleted message: ', info)
     } else {
         console.log('Empty DB LIST')
-        res.status(404).send("List is Empty")
+        res.status(404).json({ "yourMessage": "DELETE: List is Empty" })
     }
 
 

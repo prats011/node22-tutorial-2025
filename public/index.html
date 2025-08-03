@@ -28,10 +28,10 @@
 </body>
 <script>
 
-    //Following fucntion sources from:https://stackoverflow.com/questions/23850115/trying-to-get-a-timestamp-inputed-upon-a-click-of-the-button
-    // & https://www.w3schools.com/jsref/met_node_insertbefore.asp
+    //Following fucntion source from:https://stackoverflow.com/questions/23850115/trying-to-get-a-timestamp-inputed-upon-a-click-of-the-button
     //getTimeStamp()
-    //setTime()
+
+    const responses = []
     const btn = document.getElementById('send');
     async function sendMsg() {
         const res = await fetch('/api/info?id=8', {
@@ -42,10 +42,11 @@
             body: JSON.stringify({ information: "This is from the web client" })
         });
         console.log("REQUEST SENT");
-        setTime()
-        
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage)
+        updateDisplay()
     }
-    btn.addEventListener('click', sendMsg, setTime);
+    btn.addEventListener('click', sendMsg);
 
     const btnDel = document.getElementById('del');
     async function delMsg() {
@@ -53,9 +54,11 @@
             method: 'DELETE'
         });
         console.log("DELETE SENT");
-        setTime()
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage)
+        updateDisplay()
     }
-    btnDel.addEventListener('click', delMsg, setTime);
+    btnDel.addEventListener('click', delMsg);
 
     const btnpCreate = document.getElementById('pCreate');
     async function pCreate() {
@@ -67,9 +70,11 @@
             body: JSON.stringify({ information: "You are using this website" })
         });
         console.log("PUT CREATE SENT");
-        setTime()
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage)
+        updateDisplay()
     }
-    btnpCreate.addEventListener('click', pCreate, setTime);
+    btnpCreate.addEventListener('click', pCreate);
 
     const btnpUpdate = document.getElementById('pUpdate');
     async function pUpdate() {
@@ -84,9 +89,23 @@
             })
         });
         console.log("PUT UPDATE SENT");
-        setTime()
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage);
+        updateDisplay()
     }
-    btnpUpdate.addEventListener('click', pUpdate, setTime);
+    btnpUpdate.addEventListener('click', pUpdate);
+
+
+    function updateDisplay() {
+        const time = getTimeStamp()
+        const message = responses[0]
+        const newNode = document.createElement('li')
+        const details = document.createTextNode(time + " " + message)
+        newNode.appendChild(details)
+        const list = document.getElementById("timeStampList")
+        list.insertBefore(newNode, list.children[0])
+
+    }
 
     function getTimeStamp() {
         var now = new Date();
@@ -94,15 +113,7 @@
             + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' +
             ((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds())) + '>');
     }
-    function setTime() {
-        const time = getTimeStamp()
-        const newNode = document.createElement('li')
-        const details = document.createTextNode(time)
-        newNode.appendChild(details)
-        const list = document.getElementById("timeStampList")
-        list.insertBefore(newNode, list.children[0])
 
-    }
 </script>
 
 </html>
