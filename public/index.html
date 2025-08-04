@@ -1,29 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    This is Pratham
-    <button id ='nice'>
+    <button id='send'>
         SEND
     </button>
+    <button id="del">
+        DELETE
+    </button>
+    <button id="pCreate">
+        PUT CREATE
+    </button>
+    <button id="pUpdate">
+        PUT UPDATE
+    </button>
+    <div id="timeContainer">
+        <p>Messages:</p>
+        <ul id="timeStampList"></ul>
+
+    </div>
 </body>
 <script>
-    const btn = document.getElementById('nice')
-    async function sendMsg(){
-        const res = await fetch('/api/info', {
+    //Following fucntion source from:https://stackoverflow.com/questions/23850115/trying-to-get-a-timestamp-inputed-upon-a-click-of-the-button
+    //https://www.w3schools.com
+    //getTimeStamp()
+
+    const responses = []
+    const btn = document.getElementById('send');
+    async function sendMsg() {
+        const res = await fetch('/api/info?id=8', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({information: "This is from the web client"})
-        })
-        console.log("REQUEST SENT")
+            body: JSON.stringify({ information: "This is from the web client" })
+        });
+        console.log("REQUEST SENT");
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage)
+        updateDisplay()
     }
-    btn.addEventListener('click', sendMsg)
+    btn.addEventListener('click', sendMsg);
 
+    const btnDel = document.getElementById('del');
+    async function delMsg() {
+        const res = await fetch('/delete?id=8', {
+            method: 'DELETE'
+        });
+        console.log("DELETE SENT");
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage)
+        updateDisplay()
+    }
+    btnDel.addEventListener('click', delMsg);
+
+    const btnpCreate = document.getElementById('pCreate');
+    async function pCreate() {
+        const res = await fetch('/api/create?id=8', {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ information: "You are using this website" })
+        });
+        console.log("PUT CREATE SENT");
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage)
+        updateDisplay()
+    }
+    btnpCreate.addEventListener('click', pCreate);
+
+    const btnpUpdate = document.getElementById('pUpdate');
+    async function pUpdate() {
+        const res = await fetch('/api/update?id=8', {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                information: "This is from the web client",
+                newInformation: "You are using the website"
+            })
+        });
+        console.log("PUT UPDATE SENT");
+        const data = await res.json()
+        responses.splice(0, 0, data.yourMessage);
+        updateDisplay()
+    }
+    btnpUpdate.addEventListener('click', pUpdate);
+
+    function updateDisplay() {
+        const time = getTimeStamp()
+        const message = responses[0]
+        const newNode = document.createElement('li')
+        const details = document.createTextNode(time + " " + message)
+        newNode.appendChild(details)
+        const list = document.getElementById("timeStampList")
+        list.insertBefore(newNode, list.children[0])
+    }
+
+    function getTimeStamp() {
+        var now = new Date();
+        return ('<' + (now.getMonth() + 1) + '-' + (now.getDate()) + '-' + now.getFullYear() + ' ' + now.getHours() + ':'
+            + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' +
+            ((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds())) + '>');
+    }
 </script>
 </html>

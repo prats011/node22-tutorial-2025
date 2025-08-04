@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const express = require('express')
 const app = express()
-const PORT = 4999
+const PORT = process.env.PORT || 4999;
+
 
 //middleware
 app.use(express.json())
@@ -8,10 +11,10 @@ app.use(express.static('public'))
 app.use(require('cors')())
 app.use(mw)
 
-function mw(req, res, next){
+function mw(req, res, next) {
     console.log('Hit the MIDDLEWARE')
-    const {id} = req.query
-    if(id != 8){
+    const { id } = req.query
+    if (id != 8) {
         return res.sendStatus(403)
     }
     next()
@@ -21,8 +24,8 @@ function mw(req, res, next){
 const db = []
 
 //SCHEDULER
-function cron(ms, fn){
-    async function cb(){
+function cron(ms, fn) {
+    async function cb() {
         clearTimeout(timeout)
         await fn()
         timeout = setTimeout(cb, ms)
@@ -31,42 +34,63 @@ function cron(ms, fn){
     return () => { }
 }
 
-function consoleDB(){
+function consoleDB() {
     console.log('DB= ', db)
 }
 
 cron(1000, consoleDB)
 
-// GET POST PATCH PUT DELETE 
 //This gets overrun by the html file when
-//  there is app.use(express.static('public'))
-app.get('/', (req,res) => {
+// there is app.use(express.static('public'))
+app.get('/', (req, res) => {
     console.log("You have reached the home route: GET ")
-    res.status(200).send({"message": "Hi mom"})
+    res.status(200).send({ "yourMessage": "GET: Opened web" })
 })
 
 app.post('/api/info', (req, res) => {
-    const {information}  = req.body
+    const { information } = req.body
     console.log('The posted message: ', information)
     db.push(information)
     console.log('DB: ', db)
-    res.status(201).json({"yourMessage": information})
+    res.status(201).json({ "yourMessage": `POST: ${information}` })
 })
 
-app.put('/api', (req, res) => {
-    const {word, banana} = req.query
-    console.log(word, banana)
-    res.sendStatus(200)
+app.put('/api/create', (req, res) => {
+    const { information } = req.body
+    db.push(information)
+    console.log('Added new item:', information)
+    return res.status(201).json({ "yourMessage": `PUT CREATE: ${information}` })
 })
 
-app.delete('/delete/james/cool', (req,res) => {
-    res.sendStatus(200).send('Didnt make it')
-})
+app.put('/api/update', (req, res) => {
+    const { information } = req.body
+    const { newInformation } = req.body
+    const index = db.findIndex(newInformation => newInformation === information)
 
-app.delete('/delete/', mw, (req,res) => {
-    const {id} = req.params
-    console.log('What do you want to delete? ', id)
-    res.sendStatus(200)
+    if (index === -1) {
+        return res.status(404).json({ "yourMessage": "PUT UPDATE: No item to update in database" })
+    }
+
+    db.splice(index, 1, newInformation);
+    console.log('Updated new information:', newInformation)
+    res.status(200).json({ "yourMessage": `PUT UPDATE: "${information}" to "${newInformation}"` })
+});
+
+
+
+app.delete('/delete', (req, res) => {
+    if (db.length > 0) {
+        const info = db[0]
+        const deleted = info
+        db.splice(0, 1)
+        res.status(200).json({ "yourMessage": `DELETE: ${deleted}` })
+        console.log('The deleted message: ', info)
+    } else {
+        console.log('Empty DB LIST')
+        res.status(404).json({ "yourMessage": "DELETE: Database is empty" })
+    }
+
+
 })
 
 app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
