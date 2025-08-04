@@ -68,7 +68,7 @@ app.put('/api/update', (req, res) => {
     const index = db.findIndex(newInformation => newInformation === information)
 
     if (index === -1) {
-        return res.status(404).json({ "yourMessage": "PUT UPDATE: error Item not found" })
+        return res.status(404).json({ "yourMessage": "PUT UPDATE: No item to update in database" })
     }
 
     db.splice(index, 1, newInformation);
@@ -87,7 +87,7 @@ app.delete('/delete', (req, res) => {
         console.log('The deleted message: ', info)
     } else {
         console.log('Empty DB LIST')
-        res.status(404).json({ "yourMessage": "DELETE: List is Empty" })
+        res.status(404).json({ "yourMessage": "DELETE: Database is empty" })
     }
 
 
